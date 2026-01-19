@@ -137,6 +137,41 @@ class PoDNS4JTest {
     }
 
     @Test
+    @DisplayName("Reject trailing slash in various positions")
+    void testTrailingSlashEdgeCases() {
+        // Trailing slash before tag
+        assertThrows(PronounParseException.class, () -> PoDNS4J.parse("they/them/; preferred"));
+
+        // Trailing slash before comment
+        assertThrows(PronounParseException.class, () -> PoDNS4J.parse("they/them/ # comment"));
+
+        // Trailing slash with whitespace
+        assertThrows(PronounParseException.class, () -> PoDNS4J.parse("they/them/ "));
+    }
+
+    @Test
+    @DisplayName("Reject whitespace-only input")
+    void testWhitespaceOnlyInput() {
+        assertThrows(PronounParseException.class, () -> PoDNS4J.parse("   "));
+        assertThrows(PronounParseException.class, () -> PoDNS4J.parse("\t\n"));
+    }
+
+    @Test
+    @DisplayName("Handle empty comments gracefully")
+    void testEmptyComments() throws PronounParseException {
+        // Empty comment after #
+        PronounRecord record = PoDNS4J.parse("SHE/HER #");
+        assertEquals("she", record.pronounSet().subject());
+        assertEquals("her", record.pronounSet().object());
+        assertEquals("", record.comment());
+
+        // Whitespace-normalized empty comment
+        record = PoDNS4J.parse("she/her #   ");
+        assertEquals("she", record.pronounSet().subject());
+        assertNotNull(record.comment());
+    }
+
+    @Test
     @DisplayName("Plural detection - they/them automatically plural")
     void testPluralDetection() throws PronounParseException {
         PronounRecord record = PoDNS4J.parse("they/them");
