@@ -99,11 +99,13 @@ class PoDNS4JTest {
 
         // SHE / HER -> she/her (whitespace)
         record = PoDNS4J.parse("SHE /    HER");
+        assertEquals("SHE /    HER", record.raw());
         assertEquals("she", record.pronounSet().subject());
         assertEquals("her", record.pronounSet().object());
 
         // he/him;;;preferred -> he/him;preferred (duplicate semicolons)
         record = PoDNS4J.parse("he/him;;;preferred");
+        assertEquals("he/him;;;preferred", record.raw());
         assertEquals("he", record.pronounSet().subject());
         assertTrue(record.pronounSet().isPreferred());
     }

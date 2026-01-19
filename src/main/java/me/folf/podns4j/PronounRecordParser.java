@@ -66,7 +66,7 @@ public class PronounRecordParser {
 
         // Parse pronoun set
         PronounSet pronounSet = parsePronounSet(baseRecord);
-        return new PronounRecord(RecordType.PRONOUN_SET, pronounSet, comment);
+        return new PronounRecord(RecordType.PRONOUN_SET, pronounSet, comment, record);
     }
 
     private static PronounSet parsePronounSet(String record) throws PronounParseException {
@@ -98,11 +98,6 @@ public class PronounRecordParser {
             throw new PronounParseException("Pronoun set must have at least subject and object: " + pronounPart);
         }
 
-        // Validate: must have at most 5 components
-        if (pronouns.length > 5) {
-            throw new PronounParseException("Pronoun set has too many components (max 5): " + pronounPart);
-        }
-
         // Validate: no empty components except possibly trailing
         for (int i = 0; i < pronouns.length; i++) {
             pronouns[i] = pronouns[i].trim();
@@ -131,7 +126,7 @@ public class PronounRecordParser {
             case "plural":
                 return Tag.PLURAL;
             default:
-                throw new PronounParseException("Unknown tag: " + tagStr);
+                return null;
         }
     }
 

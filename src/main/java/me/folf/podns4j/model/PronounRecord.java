@@ -12,13 +12,15 @@ import java.util.Objects;
 public record PronounRecord(
         RecordType type,
         PronounSet pronounSet,
-        String comment) {
+        String comment,
+        String raw) {
     /**
      * Validates record parameters.
      * 
      * @param type       the record type
      * @param pronounSet the pronoun set
      * @param comment    the comment
+     * @param raw        the raw record string
      */
     public PronounRecord {
         Objects.requireNonNull(type, "type cannot be null");
@@ -36,18 +38,20 @@ public record PronounRecord(
      * Creates pronoun set record.
      * 
      * @param pronounSet the pronoun set
+     * @param raw        the raw record string
      */
-    public PronounRecord(PronounSet pronounSet) {
-        this(RecordType.PRONOUN_SET, pronounSet, null);
+    public PronounRecord(PronounSet pronounSet, String raw) {
+        this(RecordType.PRONOUN_SET, pronounSet, null, raw);
     }
 
     /**
      * Creates wildcard, none, or comment record.
      * 
      * @param type the record type
+     * @param raw  the raw record string
      */
-    public PronounRecord(RecordType type) {
-        this(type, null, null);
+    public PronounRecord(RecordType type, String raw) {
+        this(type, null, null, raw);
     }
 
     /**
@@ -55,9 +59,10 @@ public record PronounRecord(
      * 
      * @param type    the record type
      * @param comment the comment
+     * @param raw     the raw record string
      */
-    public PronounRecord(RecordType type, String comment) {
-        this(type, null, comment);
+    public PronounRecord(RecordType type, String comment, String raw) {
+        this(type, null, comment, raw);
     }
 
     /**
