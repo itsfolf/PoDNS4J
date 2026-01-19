@@ -1,0 +1,49 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
+
+group = 'me.folf'
+version = '0.1.0-SNAPSHOT'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    withJavadocJar()
+    withSourcesJar()
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // JUnit Jupiter for testing
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            
+            pom {
+                name = 'PoDNS4J'
+                description = 'A Java PoDNS library.'
+                url = 'https://github.com/itsfolf/podns4j'
+                
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+            }
+        }
+    }
+}
