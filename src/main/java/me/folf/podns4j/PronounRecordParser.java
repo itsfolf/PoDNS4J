@@ -40,19 +40,19 @@ public class PronounRecordParser {
         // Comment record
         if (baseRecord.isEmpty()) {
             if (comment != null && !comment.isEmpty()) {
-                return new PronounRecord(RecordType.COMMENT, comment);
+                return new PronounRecord(RecordType.COMMENT, comment, record);
             }
             throw new PronounParseException("Record cannot be empty");
         }
 
         // Check for wildcard
         if (baseRecord.equals("*")) {
-            return new PronounRecord(RecordType.WILDCARD, comment);
+            return new PronounRecord(RecordType.WILDCARD, comment, record);
         }
 
         // Check for none
         if (baseRecord.equals("!")) {
-            return new PronounRecord(RecordType.NONE, comment);
+            return new PronounRecord(RecordType.NONE, comment, record);
         }
 
         // Apply conversions

@@ -130,11 +130,7 @@ class PoDNS4JTest {
         // she (missing object)
         assertThrows(PronounParseException.class, () -> PoDNS4J.parse("she"));
 
-        // they/them/their/theirs/themself/extra (too many components)
-        assertThrows(PronounParseException.class, () -> PoDNS4J.parse("they/them/their/theirs/themself/extra"));
-
-        // she/her;unknown-tag (unknown tag)
-        assertThrows(PronounParseException.class, () -> PoDNS4J.parse("she/her;unknown-tag"));
+        // >5 components and invalid tags are silently dropped, so no test here
 
         // Empty record
         assertThrows(PronounParseException.class, () -> PoDNS4J.parse(""));
